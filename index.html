@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Chemistry Escape Room</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar" aria-label="Mission navigation">
+        <div class="brand">
+          <div class="brand-mark" aria-hidden="true">
+            <svg viewBox="0 0 64 64" role="img">
+              <circle cx="32" cy="32" r="5"></circle>
+              <ellipse cx="32" cy="32" rx="26" ry="9"></ellipse>
+              <ellipse cx="32" cy="32" rx="26" ry="9" transform="rotate(60 32 32)"></ellipse>
+              <ellipse cx="32" cy="32" rx="26" ry="9" transform="rotate(120 32 32)"></ellipse>
+            </svg>
+          </div>
+          <div>
+            <h1>Chemistry Escape Room</h1>
+            <p>First-year physics laboratory assistants</p>
+          </div>
+        </div>
+
+        <div class="mission-card">
+          <span class="label">Final code</span>
+          <strong id="finalCodePreview">_____</strong>
+          <p>Unlock all stations to reveal the phrase.</p>
+        </div>
+
+        <nav id="stationNav" class="station-nav"></nav>
+
+        <div class="utility-panel">
+          <button id="teacherToggle" class="ghost-button" type="button">Teacher key</button>
+          <button id="resetButton" class="ghost-button" type="button">Reset run</button>
+        </div>
+      </aside>
+
+      <main class="main-stage">
+        <section class="hero-panel" id="introScreen">
+          <div class="lab-visual" aria-hidden="true">
+            <svg viewBox="0 0 620 360">
+              <defs>
+                <linearGradient id="liquidA" x1="0" x2="1">
+                  <stop stop-color="#28a7a1"></stop>
+                  <stop offset="1" stop-color="#e3b341"></stop>
+                </linearGradient>
+              </defs>
+              <path class="bench" d="M40 292h540v28H40z"></path>
+              <path class="flask-glass" d="M162 78h62v20l-22 44 76 132c12 22-2 38-28 38H136c-26 0-40-16-28-38l76-132-22-44z"></path>
+              <path class="liquid" d="M130 246h128l26 48H104z"></path>
+              <path class="tube" d="M366 66h54v194c0 23-12 42-27 42s-27-19-27-42z"></path>
+              <path class="tube-liquid" d="M368 210h50v54c0 18-11 32-25 32s-25-14-25-32z"></path>
+              <path class="burner" d="M460 260h72v34h-72zM486 216h20v44h-20z"></path>
+              <path class="flame" d="M496 206c-18-22 11-42 4-70 32 32 47 56 10 88-4 3-10-7-14-18z"></path>
+              <g class="orbit-small">
+                <circle cx="100" cy="86" r="4"></circle>
+                <ellipse cx="100" cy="86" rx="42" ry="14"></ellipse>
+                <ellipse cx="100" cy="86" rx="42" ry="14" transform="rotate(70 100 86)"></ellipse>
+              </g>
+            </svg>
+          </div>
+          <div class="intro-copy">
+            <span class="eyebrow">90-minute digital lesson</span>
+            <h2>The Locked Year Report</h2>
+            <p>
+              The year report for class P10 has been locked in the lab server.
+              Your team must prove that you understand atomic structure, the PSE, bonding, molecules, glassware and lab safety.
+            </p>
+            <div class="start-grid">
+              <label>
+                Team name
+                <input id="teamName" autocomplete="off" placeholder="e.g. Team Alpha" />
+              </label>
+              <button id="startButton" class="primary-button" type="button">Start mission</button>
+            </div>
+          </div>
+        </section>
+
+        <section class="topbar" id="topbar" hidden>
+          <div>
+            <span class="label">Team</span>
+            <strong id="teamLabel">Team</strong>
+          </div>
+          <div>
+            <span class="label">Progress</span>
+            <strong id="progressLabel">0 / 6</strong>
+          </div>
+          <div>
+            <span class="label">Time</span>
+            <strong id="timerLabel">90:00</strong>
+          </div>
+        </section>
+
+        <section id="stationHost" class="station-host" hidden></section>
+
+        <section id="finalScreen" class="final-screen" hidden>
+          <div class="success-mark">Unlocked</div>
+          <h2>Year Report Restored</h2>
+          <p>
+            The final phrase is <strong>LAB SAFETY FIRST UNLOCK THE YEAR REPORT WITH SAFE METHODS</strong>. Your team can now read the missing protocol and report
+            two result sentences in English.
+          </p>
+          <div class="protocol">
+            <h3>Missing protocol</h3>
+            <p>
+              Wear suitable PPE. Choose calibrated glassware for exact volumes. Use the periodic table to derive particle numbers,
+              ions and likely bonding. Explain observations with atomic structure, electron configuration and intermolecular forces.
+            </p>
+          </div>
+          <button id="downloadCertificate" class="primary-button" type="button">Download certificate</button>
+        </section>
+      </main>
+    </div>
+
+    <dialog id="teacherDialog">
+      <form method="dialog">
+        <header>
+          <h2>Teacher key</h2>
+          <button class="icon-button" value="close" aria-label="Close" type="submit">×</button>
+        </header>
+        <div class="teacher-content" id="teacherContent"></div>
+      </form>
+    </dialog>
+
+    <dialog id="pinDialog">
+      <form method="dialog" id="pinForm">
+        <header>
+          <h2>Teacher PIN</h2>
+          <button class="icon-button" value="close" aria-label="Close" type="submit">×</button>
+        </header>
+        <div class="teacher-content">
+          <label>
+            Enter PIN
+            <input id="teacherPin" type="password" autocomplete="off" />
+          </label>
+          <p id="pinFeedback" class="feedback" aria-live="polite"></p>
+          <button class="primary-button" value="unlock" type="submit">Unlock teacher key</button>
+        </div>
+      </form>
+    </dialog>
+
+    <script src="app.js"></script>
+  </body>
+</html>
